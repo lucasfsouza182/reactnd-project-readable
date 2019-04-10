@@ -1,0 +1,108 @@
+a {
+  color: #393;
+  text-decoration: none;
+}
+button {
+  background-color: transparent;
+  border: 0;
+  color: #393;
+  cursor: pointer;
+  font-size: 16px;
+}
+li {
+  list-style: none;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  background-color: #eee;
+  color: #333;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  display: flex;
+  margin: 0 auto;
+  max-width: 960px;
+  width: fit-content;
+}
+
+.category-link {
+  margin: 0 5px;
+}
+.center {
+  text-align: center;
+}
+
+.dashboard {
+}
+
+.main-section {
+  margin-right: 30px;
+}
+
+.nav {
+  margin-lieft: 20px;
+}
+
+.post {
+  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 20px;
+  transition: box-shadow 0.3s ease-out;
+  width: 600px;
+}
+.post:hover {
+  box-shadow: 0 1px 4px 2px rgba(200, 200, 200, 0.4);
+}
+
+.post:hover .title {
+  color: #393;
+}
+
+.post .details {
+  color: #555;
+  font-size: 13.3333px;
+}
+.post .title {
+  margin-bottom: 5px;
+}
+
+.post .votes {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  font-weight: 700;
+  margin-right: 20px;
+  text-align: center;
+}
+
+.post >*:not(.link) {
+	color: #333;
+}
+
+.post .votes button span {
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  display: block;
+  height: 0;
+  width: 0;
+}
+
+.post .votes button .up {
+  border-bottom: 10px solid #393;
+}
+
+.post .votes button .down {
+  border-top: 10px solid #393;
+}
+
+.post .votes .score {
+  margin: 5px;
+}
