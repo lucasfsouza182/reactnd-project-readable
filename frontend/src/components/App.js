@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Switch, Route } from 'react-router-dom';
 import { getCategoriesAPI } from '../actions/categories';
 import '../App.css';
 import NavBar from '../components/NavBar';
+import Panel from './Panel';
 
 
 class App extends Component {
@@ -14,6 +16,18 @@ class App extends Component {
     return (
       <div className="App">
           <NavBar />
+          <Switch>
+          <Route exact path="/" render={(routeProps) => {
+            return (
+              <Panel title="React, Redux or Udacity" />
+            );
+          }} />
+          <Route path="/:categoryName" render={(routeProps) => {
+            return (
+              <Panel title={routeProps.match.params.categoryName} categoryName={routeProps.match.params.categoryName} />
+            );
+          }} />
+        </Switch>
       </div>
     );
   }
