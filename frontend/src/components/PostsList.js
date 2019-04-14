@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getPostsAPI , deletePostAPI} from '../actions/posts';
-import { sortByField } from '../utils/appHelper';
+import { getPostsAPI , deletePostAPI , updatePostVoteAPI} from '../actions/posts';
+import { sortByField , PLUS_VOTE , MINUS_VOTE} from '../utils/appHelper';
 
 
 const sort_by_vote = {
@@ -38,7 +38,7 @@ class PostsList extends React.Component {
     this.props.deletePost(id);
   }
 
-  updateSort(field) {
+  changeSort(field) {
     this.setState({
       postsSorted: field,
       posts: sortByField(this.state.posts, field)
@@ -58,17 +58,17 @@ class PostsList extends React.Component {
     return (
         <div>
         <div>
-          <select className="select" value={this.state.postsSort} onChange={(event) => this.updateSort(event.target.value)}>
+          <select className="select" value={this.state.postsSort} onChange={(event) => this.changeSort(event.target.value)}>
             <option value={sort_by_vote.type}>{sort_by_vote.value}</option>
             <option value={sort_by_timestamp.type}>{sort_by_timestamp.value}</option>
           </select>
         </div>
         <div>
-          {posts.map((post, idx) => {
+          {posts.map((post) => {
             return (
-              <div key={idx}>
+              <div key={post.id} className="List">
                 <div>
-                  <div to={"/" + post.category + "/" + post.id}>{post.title}</div> - {post.author}
+                  <Link to={"/" + post.category + "/" + post.id}>{post.title}</Link> - {post.author}
                 </div>
                 <div>
                   Score
@@ -77,10 +77,10 @@ class PostsList extends React.Component {
                   {post.voteScore}
                 </div>
                 <div>
-                  <button  className="plusVote"></button>
+                  <button onClick={() => this.props.vote(post.id, PLUS_VOTE)} className="plusVote">VOTE PLUS</button>
                 </div>
                 <div>
-                  <button  className="minusVote"></button>
+                  <button onClick={() => this.props.vote(post.id, MINUS_VOTE)} className="minusVote">VOTE MINUS</button>
                 </div>
                 <div>
                   Comments
@@ -113,6 +113,7 @@ function mapStateToProps({ posts }) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    vote: (id, vote) => dispatch(updatePostVoteAPI(id, vote)),
     getPosts: () => dispatch(getPostsAPI()),
     deletePost: (id) => dispatch(deletePostAPI(id)),
   }

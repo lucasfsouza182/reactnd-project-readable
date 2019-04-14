@@ -11,9 +11,9 @@ const NavBar = function(props) {
               Home
             </NavLink>
         </li>
-        {props.categories && Object.keys(props.categories).map((categoryName, idx) => (
-          <li key={idx}>
-              <NavLink key={idx} to={"/" + props.categories[categoryName].path} activeClassName='active'>
+        {props.categories && Object.keys(props.categories).map((categoryName, id) => (
+          <li key={id}>
+              <NavLink key={id} to={"/" + props.categories[categoryName].path} activeClassName='active'>
                   {categoryName}
               </NavLink>
           </li>

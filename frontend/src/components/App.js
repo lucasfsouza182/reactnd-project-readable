@@ -1,10 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component , Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom';
 import { getCategoriesAPI } from '../actions/categories';
 import '../App.css';
 import NavBar from '../components/NavBar';
 import Panel from './Panel';
+import Post from './Post';
+import PostForm from './PostForm';
 
 
 class App extends Component {
@@ -17,16 +19,19 @@ class App extends Component {
       <div className="App">
           <NavBar />
           <Switch>
-          <Route exact path="/" render={(routeProps) => {
-            return (
-              <Panel title="React, Redux or Udacity" />
-            );
-          }} />
-          <Route path="/:categoryName" render={(routeProps) => {
-            return (
-              <Panel title={routeProps.match.params.categoryName} categoryName={routeProps.match.params.categoryName} />
-            );
-          }} />
+            <Route exact path="/" render={() => {
+              return (
+                <Panel title="React, Redux or Udacity" />
+              );
+            }} />
+            <Route path="/post/:postId?" component={PostForm}></Route>
+            <Route path="/:categoryParam/:postId" component={Post}></Route>
+            <Route path="/:categoryParam" render={(routeProps) => {
+              console.log("routeProps",routeProps)
+              return (
+                <Panel title={routeProps.match.params.categoryParam} categoryParam={routeProps.match.params.categoryParam} />
+              );
+            }} />
         </Switch>
       </div>
     );

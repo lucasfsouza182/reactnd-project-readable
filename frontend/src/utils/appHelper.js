@@ -1,3 +1,6 @@
+export const PLUS_VOTE = "upVote";
+export const MINUS_VOTE = "downVote";
+
 export function sortByField(list, field) {
     if (!list) {
       return list;
