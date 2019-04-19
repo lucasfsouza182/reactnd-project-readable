@@ -8,13 +8,11 @@ import Panel from './Panel';
 import Post from './Post';
 import PostForm from './PostForm';
 
-
 class App extends Component {
   componentDidMount() {
       this.props.getCategories();
   }
   render() {
-    console.log("app", this.props)
     return (
       <div className="App">
           <NavBar />

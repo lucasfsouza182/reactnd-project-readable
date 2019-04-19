@@ -56,7 +56,7 @@ import { getAllPosts , savePost , editPost , getPostsDetail , removePost , voteP
   
   export function updatePostAPI(post) {
     return function (dispatch) {
-      editPost(post.id, post).then((resPost) => {
+      editPost(post).then((resPost) => {
         dispatch(updatePost(resPost));
       })
     }

@@ -8,38 +8,30 @@ import { Redirect } from 'react-router-dom'
 
 const ADD = "ADD";
 const EDIT = "EDIT";
-class PostForm extends React.Component {
-  constructor(props) {
-    super(props);
 
+class PostForm extends React.Component {
+  componentDidMount() {
     if (this.props.match.params.postId !== undefined) {
       this.postId = this.props.match.params.postId;
       this.props.getPost(this.postId);
     }
-
-    this.state = {
-        post: {
-          title: "",
-          author: "",
-          category: "",
-          body: ""
-        },
-        page : ADD,
-       /*  title: '',
-        author: '',
-        category: '',
-        body: '',
-        id: '',
-        timestamp: '', */
-      formErrors: {title: '', author: '' , category: '' , body: ''},
-      titleValid: false,
-      authorValid: false,
-      categoryValid: false,
-      bodyValid: false,
-      formValid: false,
-      toHome: false
-    }
-      
+  }
+  
+  state = {
+    post: {
+      title: "",
+      author: "",
+      category: "",
+      body: ""
+    },
+    page : ADD,
+    formErrors: {title: '', author: '' , category: '' , body: ''},
+    titleValid: false,
+    authorValid: false,
+    categoryValid: false,
+    bodyValid: false,
+    formValid: false,
+    toHome: false
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,32 +46,20 @@ class PostForm extends React.Component {
       console.log("componentWillReceiveProps",post)
       this.setState({ page: EDIT,
                       post: post,
-                      category: post.category,
-                      /* author: post.author,
-                      body: post.body,
-                      id: post.id,
-                      timestamp: post.timestamp, */
-                       });
+                      category: post.category,});
     }
   }
 
   handleInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    //console.log("name" , name)
-    //console.log("value" , value)
-    //console.log("state antes" , this.state)
-    
+
     this.setState(prevState => ({
       post: {
           ...prevState.post,
           [name]: value
       }
     }),() => { this.validateField(name, value) })
-  
-    /* this.setState({[name]: value},
-      () => { this.validateField(name, value) }); */
-    //console.log("state depois" , this.state)
   }
 
   validateField(fieldName, value) {
@@ -124,8 +104,9 @@ class PostForm extends React.Component {
   errorClass(error) {
     return(error.length === 0 ? '' : 'has-error');
   }
-  savePost = () => {
 
+  handleSubmit = (e) => {
+    console.log("STATE",this.state.post)
     if(this.state.page === ADD){
       let title = this.state.post.title;
       let category = this.state.post.category;
@@ -158,22 +139,18 @@ class PostForm extends React.Component {
       post.id = uuid.v1();
       post.timestamp = moment().valueOf();
   
-      console.log(post)
-  
       this.props.addPost(post);
     }else{
+      
       this.props.updatePost(this.state.post);
     }
 
     this.setState(() => ({
       toHome: true
     }))
-    
   }
 
-  render() {
-    console.log("render",this.state)
-    const postCategory = this.state.post.category;
+  render() {    
     if (this.state.toHome === true) {
       return <Redirect to='/' />
     }
@@ -183,7 +160,7 @@ class PostForm extends React.Component {
           Post form
         </div>
         <div>
-            <form>
+            <form onSubmit={this.handleSubmit}>
               <div className="panel panel-default">
                 <FormErrors formErrors={this.state.formErrors} />
               </div>
@@ -210,7 +187,7 @@ class PostForm extends React.Component {
               </div>
               <div className={`form-group ${this.errorClass(this.state.formErrors.category)}`}>
                 <label htmlFor="title">Category</label>
-                <select className="select" placeholder="Category" name="category" value={this.state.category}  onChange={this.handleInput} value={this.state.category} onBlur={(event) => this.handleInput(event)}>
+                <select className="select" placeholder="Category" name="category" value={this.state.category}  onChange={this.handleInput} onBlur={(event) => this.handleInput(event)}>
                     <option>Select category</option>
                     {this.props.categories && Object.values(this.props.categories).map((category, id) => {
                       return (<option value={category.name} key={id}>{category.name}</option>)
@@ -226,7 +203,7 @@ class PostForm extends React.Component {
                   onChange={(event) => this.handleInput(event)}  onBlur={(event) => this.handleInput(event)}/>
               </div>
               <br />
-              <button className="btn btn-primary" disabled={!this.state.formValid} onClick={this.savePost}>Save</button>
+              <button className="btn btn-primary" type='submit' disabled={!this.state.formValid}>Save</button>
             </form>
         </div>
       </div>

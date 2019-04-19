@@ -17,6 +17,11 @@ const sort_by_timestamp = {
 }
 
 class PostsList extends React.Component {
+
+  componentDidMount() {
+    this.props.getPosts();
+  }
+
   static propTypes = {
     category: PropTypes.string
   }
@@ -24,15 +29,13 @@ class PostsList extends React.Component {
       posts: [],
       postsSorted: sort_by_vote.type
     }
-  componentDidMount() {
-    this.props.getPosts();
-  }
+  
 
-  componentWillReceiveProps(nextProps) {
+  /* componentWillReceiveProps(nextProps) {
     if (nextProps.posts) {
       this.setState({ posts: sortByField(Object.values(nextProps.posts), sort_by_vote.type) });
     }
-  }
+  } */
 
   deletePost(id) {
     this.props.deletePost(id);
@@ -41,14 +44,14 @@ class PostsList extends React.Component {
   changeSort(field) {
     this.setState({
       postsSorted: field,
-      posts: sortByField(this.state.posts, field)
+      posts: sortByField(this.props.posts, field)
     });
   }
 
   render() {
     let posts = [];
-    if (this.state.posts) {
-      posts = this.state.posts;
+    if (this.props.posts) {
+      posts = this.props.posts;
       const category = this.props.category;
 
       if (category) {
@@ -107,7 +110,7 @@ class PostsList extends React.Component {
 
 function mapStateToProps({ posts }) {
   return {
-    posts
+    posts : sortByField(Object.values(posts), sort_by_vote.type)
   }
 }
 

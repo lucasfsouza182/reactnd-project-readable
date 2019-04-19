@@ -5,34 +5,49 @@ import PropTypes from 'prop-types';
 import { PLUS_VOTE , MINUS_VOTE} from '../utils/appHelper';
 import { getPostAPI , deletePostAPI , updatePostVoteAPI} from '../actions/posts';
 import moment from 'moment';
+import CommentsList from '../components/CommentsList';
+import CommentForm from './CommentForm';
+import PageNotFound from '../components/PageNotFound'
+
 
 class Post extends React.Component {
-  componentDidMount() {
-    this.postId = this.props.match.params.postId;
-    this.props.getPost(this.postId);
-  }
-    state = {
-      post: {}
+  // componentDidMount() {
+  //   this.postId = this.props.match.params.postId;
+  //   this.props.getPost(this.postId);
+  // }
+  //   state = {
+  //     post: {}
+  //   }
+    constructor(props) {
+      super(props);
+  
+      this.postId = this.props.match.params.postId;
+      this.props.getPost(this.postId);
+  
+      this.state = {
+        post: {}
+      }
     }
+  
   
   componentWillReceiveProps(nextProps) {
     if (nextProps.posts) {
-      console.log("nextProps",nextProps)
       let posts = nextProps.posts;
-      console.log("posts",posts)
       if (posts && posts[this.postId]) {
         let post = Object.assign({}, posts[this.postId]);
-        console.log("post",post)
         this.setState({ post });
       }
     }
   }
 
   render() {
-    
     const { post } = this.state;
-    console.log("props",this.state)
-    console.log("props",this.props)
+    if (!post.hasOwnProperty("id")) {
+      return (
+        <PageNotFound />  
+      )
+    }
+
     return (
       <div>
       <button onClick={() => this.props.vote(post.id, PLUS_VOTE)} ></button>
@@ -67,33 +82,19 @@ class Post extends React.Component {
               <button className="primary edit">Edit</button>
             </Link>
             <button className = "deletePost" onClick={() => this.deletePost(post.id)}>Delete</button>
-            {/* CommentsList
-            ComentADD */}
+            <CommentsList postId={this.postId} />
+            <CommentForm  postId={this.postId} />
       </div>
     );
   }
 
 }
 
-
 function mapStateToProps({ posts }) {
-  console.log("mapStateToProps",posts)
   return {
     posts
   }
 }
-
-/* function mapStateToProps(state, props) {
-  const { id } = props.match.params;
-
-  let post =
-    state.posts.posts !== undefined
-      ? state.posts.posts.find(post => post.id === id)
-      : {};
-  return {
-    post,
-  };
-} */
 
 function mapDispatchToProps(dispatch) {
   return {

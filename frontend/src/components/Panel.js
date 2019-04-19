@@ -2,11 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import PageNotFound from '../components/PageNotFound'
 import PostsList from '../components/PostsList';
 
 const Panel = function (props) {
-    console.log("panel" , props)
+  if (props.categoryParam && !props.categories[props.categoryParam]) {
+    return (
+      <div>
+        <PageNotFound />
+      </div>
+    )
+  }
   return (
     <div className = "grid">
       <div className="row">
