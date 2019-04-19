@@ -8,6 +8,7 @@ import moment from 'moment';
 import CommentsList from '../components/CommentsList';
 import CommentForm from './CommentForm';
 import PageNotFound from '../components/PageNotFound'
+import { FaAngleDoubleUp , FaAngleDoubleDown} from "react-icons/lib/fa" 
 
 
 class Post extends React.Component {
@@ -25,7 +26,8 @@ class Post extends React.Component {
       this.props.getPost(this.postId);
   
       this.state = {
-        post: {}
+        post: {},
+        error:false
       }
     }
   
@@ -36,13 +38,15 @@ class Post extends React.Component {
       if (posts && posts[this.postId]) {
         let post = Object.assign({}, posts[this.postId]);
         this.setState({ post });
+      }else{
+        this.setState({ error:true });
       }
     }
   }
 
   render() {
-    const { post } = this.state;
-    if (!post.hasOwnProperty("id")) {
+    const { post , error } = this.state;
+    if (error) {
       return (
         <PageNotFound />  
       )
@@ -50,8 +54,8 @@ class Post extends React.Component {
 
     return (
       <div>
-      <button onClick={() => this.props.vote(post.id, PLUS_VOTE)} ></button>
-      <button onClick={() => this.props.vote(post.id, MINUS_VOTE)} ></button>
+      <button onClick={() => this.props.vote(post.id, PLUS_VOTE)} ><FaAngleDoubleUp className='vote-icon' /></button>
+      <button onClick={() => this.props.vote(post.id, MINUS_VOTE)} ><FaAngleDoubleDown className='vote-icon' /></button>
         <div>
           <div>
             <label><b>Date</b></label>

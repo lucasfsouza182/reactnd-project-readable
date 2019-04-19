@@ -187,17 +187,17 @@ class PostForm extends React.Component {
               </div>
               <div className={`form-group ${this.errorClass(this.state.formErrors.category)}`}>
                 <label htmlFor="title">Category</label>
-                <select className="select" placeholder="Category" name="category" value={this.state.category}  onChange={this.handleInput} onBlur={(event) => this.handleInput(event)}>
+                <select className="form-control" required placeholder="Category" name="category" value={this.state.category}  onChange={this.handleInput} onBlur={(event) => this.handleInput(event)}>
                     <option>Select category</option>
                     {this.props.categories && Object.values(this.props.categories).map((category, id) => {
                       return (<option value={category.name} key={id}>{category.name}</option>)
                     }
                     )}
-                  </select>  
+                  </select>
               </div>
               <div className={`form-group ${this.errorClass(this.state.formErrors.body)}`}>
                 <label htmlFor="body">Body</label>
-                <input type="textarea" required className="form-control" name="body"
+                <textarea  required className="form-control" name="body"
                   placeholder="Body"
                   value={this.state.post.body} 
                   onChange={(event) => this.handleInput(event)}  onBlur={(event) => this.handleInput(event)}/>

@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^4.3.1",
+    "moment": "^2.23.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-icons": "^2.2.7",
@@ -10,7 +12,6 @@
     "react-redux-loading": "^1.0.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "1.1.1",
-    "moment": "^2.23.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.3.0"
   },

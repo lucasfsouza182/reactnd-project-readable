@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getPostsAPI , deletePostAPI , updatePostVoteAPI} from '../actions/posts';
 import { sortByField , PLUS_VOTE , MINUS_VOTE} from '../utils/appHelper';
+import { FaAngleDoubleUp , FaAngleDoubleDown , FaEdit , FaTrash} from "react-icons/lib/fa" 
+
 
 
 const sort_by_vote = {
@@ -77,13 +79,13 @@ class PostsList extends React.Component {
                   Score
                 </div>
                 <div>
-                  {post.voteScore}
+                  <span className="badge badge-primary badge-pill">{post.voteScore}</span>
                 </div>
                 <div>
-                  <button onClick={() => this.props.vote(post.id, PLUS_VOTE)} className="plusVote">VOTE PLUS</button>
+                  <button onClick={() => this.props.vote(post.id, PLUS_VOTE)} className="plusVote"><FaAngleDoubleUp className='vote-icon' /></button>
                 </div>
                 <div>
-                  <button onClick={() => this.props.vote(post.id, MINUS_VOTE)} className="minusVote">VOTE MINUS</button>
+                  <button onClick={() => this.props.vote(post.id, MINUS_VOTE)} className="minusVote"><FaAngleDoubleDown className='vote-icon' /></button>
                 </div>
                 <div>
                   Comments
@@ -93,11 +95,11 @@ class PostsList extends React.Component {
                 </div>
                 <div>
                   <Link to={"/post/" + post.id}>
-                    <button className="primary edit">Edit</button>
+                    <button className="primary edit" ><FaEdit className='edit-icon' />Edit</button>
                   </Link>
                 </div>
                 <div>
-                  <button className = "deletePost" onClick={() => this.deletePost(post.id)}>Delete</button>
+                  <button className = "deletePost" onClick={() => this.deletePost(post.id)}><FaTrash className='delete-icon' />Delete</button>
                 </div>
               </div>
             )

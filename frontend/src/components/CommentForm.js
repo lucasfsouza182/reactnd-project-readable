@@ -127,7 +127,7 @@ class CommentForm extends React.Component {
             </div>  
             <div className={`form-group ${this.errorClass(this.state.formErrors.body)}`}>
               <label htmlFor="body">Body</label>
-              <input type="textarea" required className="form-control" name="body"
+              <textarea required className="form-control" name="body"
                 placeholder="Body"
                 value={this.state.comment.body} 
                 onChange={(event) => this.handleInput(event)}  onBlur={(event) => this.handleInput(event)}/>

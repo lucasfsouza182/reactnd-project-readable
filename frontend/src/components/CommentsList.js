@@ -5,6 +5,7 @@ import { PLUS_VOTE, MINUS_VOTE , sortByField} from '../utils/appHelper';
 import { getCommentsAPI, deleteCommentAPI, updateCommentVoteAPI } from '../actions/comments'
 import moment from 'moment';
 import CommentForm from './CommentForm';
+import { FaAngleDoubleUp , FaAngleDoubleDown , FaEdit , FaTrash} from "react-icons/lib/fa" 
 
 const sort_by_vote = {
   type : "voteScore",
@@ -62,7 +63,7 @@ class CommentsList extends React.Component {
   changeSort(field) {
     this.setState({
       commentsSorted: field,
-      comments: sortByField(this.state.comments, field)
+      comments: sortByField(this.props.comments, field)
     });
   }
 
@@ -97,19 +98,19 @@ class CommentsList extends React.Component {
                 <div>
                   Score
                   &nbsp;
-                  {comment.voteScore}
+                  <span className="badge badge-primary badge-pill">{comment.voteScore}</span>
                   &nbsp;
-                  <button onClick={() => this.props.vote(this.props.postId, comment.id, PLUS_VOTE)} >PLUS_VOTE</button>
+                  <button onClick={() => this.props.vote(this.props.postId, comment.id, PLUS_VOTE)} ><FaAngleDoubleUp className='vote-icon' /></button>
                   &nbsp;
-                  <button onClick={() => this.props.vote(this.props.postId, comment.id, MINUS_VOTE)} >MINUS_VOTE</button>
+                  <button onClick={() => this.props.vote(this.props.postId, comment.id, MINUS_VOTE)} ><FaAngleDoubleDown className='vote-icon' /></button>
                 </div>
                 <div>
                   <span className="body">{comment.body}</span>
                 </div>
                 <div>
-                  <button className="edit-comment" onClick={this.toggleHidden.bind(this ,comment.id)}>Edit</button>
+                  <button className="edit-comment" onClick={this.toggleHidden.bind(this ,comment.id)}><FaEdit className='edit-icon' /> Edit</button>
                   &nbsp; 
-                  <button className="delete-comment" onClick={() => this.props.deleteComment(this.props.postId, comment.id)}>Delete</button>
+                  <button className="delete-comment" onClick={() => this.props.deleteComment(this.props.postId, comment.id)}><FaTrash className='delete-icon' /> Delete</button>
                 </div>
                 {!this.state.showEdit.isHidden && comment.id === this.state.showEdit.commentId 
                   && <CommentForm comment={comment} postId={this.props.postId}/>}
