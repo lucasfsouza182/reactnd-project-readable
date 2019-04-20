@@ -4,21 +4,23 @@ import { NavLink } from 'react-router-dom'
 
 const NavBar = function(props) {
     return (
-        <nav className='nav'>
-        <ul>
-        <li>
-            <NavLink to='/' exact activeClassName='active'>
-              Home
-            </NavLink>
-        </li>
-        {props.categories && Object.keys(props.categories).map((categoryName, id) => (
-          <li key={id}>
-              <NavLink key={id} to={"/" + props.categories[categoryName].path} activeClassName='active'>
-                  {categoryName}
-              </NavLink>
-          </li>
-        ))}
-        </ul>
+        <nav className='navbar navbar-expand-lg navbar-light bg-light'>
+          <div className="collapse navbar-collapse">
+            <ul className="navbar-nav mr-auto">
+            <li className="nav-item" activeClassName='active'>
+                <NavLink to='/' exact activeClassName='active' className="nav-link">
+                  Home
+                </NavLink>
+            </li>
+            {props.categories && Object.keys(props.categories).map((categoryName, id) => (
+              <li key={id} className="nav-item" activeClassName='active'>
+                  <NavLink key={id} to={"/" + props.categories[categoryName].path} className="nav-link">
+                      {categoryName}
+                  </NavLink>
+              </li>
+            ))}
+            </ul>
+          </div>
         </nav>
     );
 }

@@ -155,11 +155,14 @@ class PostForm extends React.Component {
       return <Redirect to='/' />
     }
     return (
-      <div>
-        <div>
-          Post form
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            Post form
+          </div>
         </div>
-        <div>
+        <div className="row">
+          <div className="col-12">
             <form onSubmit={this.handleSubmit}>
               <div className="panel panel-default">
                 <FormErrors formErrors={this.state.formErrors} />
@@ -205,6 +208,7 @@ class PostForm extends React.Component {
               <br />
               <button className="btn btn-primary" type='submit' disabled={!this.state.formValid}>Save</button>
             </form>
+          </div>
         </div>
       </div>
     );

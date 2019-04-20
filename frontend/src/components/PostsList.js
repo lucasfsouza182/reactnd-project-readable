@@ -62,36 +62,36 @@ class PostsList extends React.Component {
     }
     return (
         <div>
-        <div>
-          <select className="select" value={this.state.postsSort} onChange={(event) => this.changeSort(event.target.value)}>
+        <div className="form-group">
+          <label htmlFor="order">Order</label>
+          <select name="order" className="form-control" value={this.state.postsSort} onChange={(event) => this.changeSort(event.target.value)}>
             <option value={sort_by_vote.type}>{sort_by_vote.value}</option>
             <option value={sort_by_timestamp.type}>{sort_by_timestamp.value}</option>
           </select>
         </div>
-        <div>
+        
           {posts.map((post) => {
             return (
-              <div key={post.id} className="List">
-                <div>
-                  <Link to={"/" + post.category + "/" + post.id}>{post.title}</Link> - {post.author}
-                </div>
-                <div>
-                  Score
-                </div>
-                <div>
-                  <span className="badge badge-primary badge-pill">{post.voteScore}</span>
-                </div>
-                <div>
+              <div className="container-fluid">
+              <div class="sidebar">
+               <div>
                   <button onClick={() => this.props.vote(post.id, PLUS_VOTE)} className="plusVote"><FaAngleDoubleUp className='vote-icon' /></button>
                 </div>
                 <div>
                   <button onClick={() => this.props.vote(post.id, MINUS_VOTE)} className="minusVote"><FaAngleDoubleDown className='vote-icon' /></button>
                 </div>
+              </div>  
+              <div key={post.id} className="content">
                 <div>
-                  Comments
+                  <Link to={"/" + post.category + "/" + post.id}>{post.title}</Link> - {post.author}
                 </div>
                 <div>
-                  {post.commentCount}
+                  Score <span className="badge badge-primary badge-pill">{post.voteScore}</span>
+                </div>
+                
+                <div>
+                  Comments
+                  <span className="badge badge-primary badge-pill">{post.commentCount}</span>
                 </div>
                 <div>
                   <Link to={"/post/" + post.id}>
@@ -102,9 +102,10 @@ class PostsList extends React.Component {
                   <button className = "deletePost" onClick={() => this.deletePost(post.id)}><FaTrash className='delete-icon' />Delete</button>
                 </div>
               </div>
+              </div>
             )
           })}
-        </div>
+        
       </div>
     );
   }

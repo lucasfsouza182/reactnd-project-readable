@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { PLUS_VOTE , MINUS_VOTE} from '../utils/appHelper';
-import { getPostAPI , deletePostAPI , updatePostVoteAPI} from '../actions/posts';
+import { getPostAPI , deletePostAPI , updatePostVoteAPI , getPostsAPI} from '../actions/posts';
 import moment from 'moment';
 import CommentsList from '../components/CommentsList';
 import CommentForm from './CommentForm';
@@ -22,8 +22,10 @@ class Post extends React.Component {
     constructor(props) {
       super(props);
   
+      console.log("constructor props",this.props)
       this.postId = this.props.match.params.postId;
       this.props.getPost(this.postId);
+      console.log("constructor props 2",this.props)
   
       this.state = {
         post: {},
@@ -34,6 +36,7 @@ class Post extends React.Component {
   
   componentWillReceiveProps(nextProps) {
     if (nextProps.posts) {
+      console.log("nextProps posts",posts)
       let posts = nextProps.posts;
       if (posts && posts[this.postId]) {
         let post = Object.assign({}, posts[this.postId]);
@@ -53,9 +56,13 @@ class Post extends React.Component {
     }
 
     return (
-      <div>
-      <button onClick={() => this.props.vote(post.id, PLUS_VOTE)} ><FaAngleDoubleUp className='vote-icon' /></button>
-      <button onClick={() => this.props.vote(post.id, MINUS_VOTE)} ><FaAngleDoubleDown className='vote-icon' /></button>
+      <div className ="container">
+        <div className="row">
+          <div className="col-12">
+            <button onClick={() => this.props.vote(post.id, PLUS_VOTE)} ><FaAngleDoubleUp className='vote-icon' /></button>
+            <button onClick={() => this.props.vote(post.id, MINUS_VOTE)} ><FaAngleDoubleDown className='vote-icon' /></button>
+          </div>
+        </div>
         <div>
           <div>
             <label><b>Date</b></label>
@@ -104,7 +111,8 @@ function mapDispatchToProps(dispatch) {
   return {
     getPost: (id) => dispatch(getPostAPI(id)),
     vote: (id, vote) => dispatch(updatePostVoteAPI(id, vote)),
-    deletePost: (id) => dispatch(deletePostAPI(id))
+    deletePost: (id) => dispatch(deletePostAPI(id)),
+    getPosts: () => dispatch(getPostsAPI()),
   }
 }
 

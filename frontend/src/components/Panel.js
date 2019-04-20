@@ -14,9 +14,9 @@ const Panel = function (props) {
     )
   }
   return (
-    <div className = "grid">
+    <div className = "container">
       <div className="row">
-        <div className="col12">
+        <div className="col-12">
           <div className = "Titulo">{props.title}</div>
           <PostsList category={props.categoryParam} />
           <Link to="/post">
