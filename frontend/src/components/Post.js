@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link , Redirect } from 'react-router-dom';
 import { PLUS_VOTE , MINUS_VOTE} from '../utils/appHelper';
 import { getPostAPI , deletePostAPI , updatePostVoteAPI , getPostsAPI} from '../actions/posts';
 import moment from 'moment';
@@ -16,7 +16,8 @@ class Post extends React.Component {
   
   this.state = {
     post: {},
-    error:false
+    error:false,
+    toHome:false
   }
 } 
 
@@ -32,8 +33,20 @@ class Post extends React.Component {
     }
   }
 
+  deletePost(id) {
+    this.props.deletePost(id);
+    this.setState(() => ({
+      toHome: true
+    }))
+  }
+
   render() {
-    const { post , error } = this.state;
+    const { post , error , toHome } = this.state;
+
+    if (toHome) {
+      return <Redirect to='/' />
+    }
+
     if (error) {
       return (
         <PageNotFound />  
