@@ -7,10 +7,13 @@ function posts(state = {}, action) {
   
   switch (action.type) {
     case GET_POSTS:
+      if(state.undefined){
+        delete state.undefined
+      }
       return {
-        ...state,
+        ...state ,
         ...action.posts.reduce(function (myArray, post) {
-          myArray[post.id] = post;
+            myArray[post.id] = post;
           return myArray;
         }, {})
       };
@@ -25,11 +28,19 @@ function posts(state = {}, action) {
       let post = posts[action.id];
       post.voteScore += action.vote === PLUS_VOTE ? 1 : -1;
 
-      return posts;
+      return {
+        ...state,
+        [action.id]: {
+            ...post
+        }
+      }
     case SET_POST:
-      return Object.assign({}, state, {
-        [action.post.id]: action.post
-      });
+      return {
+        ...state,
+        [action.post.id]: {
+            ...action.post
+        }
+      }
     default:
       return state;
   }

@@ -30,7 +30,7 @@ class CommentForm extends React.Component {
   }
 
   static propTypes = {
-    postId: PropTypes.string.isRequired
+    postId: PropTypes.string
   }
 
   handleInput = (e) => {
@@ -77,7 +77,6 @@ class CommentForm extends React.Component {
   }
 
   handleSubmit = (e) => {
-    console.log("STATE",this.state.comment)
     if(this.state.page === ADD){
       let author = this.state.comment.author;
       let body = this.state.comment.body;
@@ -100,12 +99,9 @@ class CommentForm extends React.Component {
       comment.id = uuid.v1();
       comment.timestamp = moment().valueOf();
       comment.parentId = this.state.comment.parentId;
-
-      console.log("handleSubmit",comment)
       
       this.props.addComment(comment);
     }else{
-      console.log("STATE",this.state.comment)
       this.props.updateComment(this.state.comment);
     }    
   }

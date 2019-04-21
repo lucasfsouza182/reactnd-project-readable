@@ -43,7 +43,6 @@ class PostForm extends React.Component {
 
     if (posts && posts[this.postId]) {
       let post = posts[this.postId];
-      console.log("componentWillReceiveProps",post)
       this.setState({ page: EDIT,
                       post: post,
                       category: post.category,});
@@ -106,7 +105,6 @@ class PostForm extends React.Component {
   }
 
   handleSubmit = (e) => {
-    console.log("STATE",this.state.post)
     if(this.state.page === ADD){
       let title = this.state.post.title;
       let category = this.state.post.category;
@@ -141,7 +139,6 @@ class PostForm extends React.Component {
   
       this.props.addPost(post);
     }else{
-      
       this.props.updatePost(this.state.post);
     }
 
@@ -175,9 +172,9 @@ class PostForm extends React.Component {
                   onChange={(event) => this.handleInput(event)} onBlur={(event) => this.handleInput(event)}/>
               </div>
               {this.state.page === EDIT && 
-                <div>
-                <label htmlFor="title">Date</label>
-                <span>{moment(this.state.post.timestamp).format("DD/MM/YY HH:mm")}</span>
+                <div className="form-group">
+                <label htmlFor="date">Date</label>
+                <input type="text" className="form-control" name="date" value={moment(this.state.post.timestamp).format("DD/MM/YY HH:mm")} readOnly/>
               </div>
               }
               

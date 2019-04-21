@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getPostsAPI , deletePostAPI , updatePostVoteAPI} from '../actions/posts';
 import { sortByField , PLUS_VOTE , MINUS_VOTE} from '../utils/appHelper';
-import { FaAngleDoubleUp , FaAngleDoubleDown , FaEdit , FaTrash} from "react-icons/lib/fa" 
-
-
 
 const sort_by_vote = {
   type : "voteScore",
@@ -32,13 +29,6 @@ class PostsList extends React.Component {
       postsSorted: sort_by_vote.type
     }
   
-
-  /* componentWillReceiveProps(nextProps) {
-    if (nextProps.posts) {
-      this.setState({ posts: sortByField(Object.values(nextProps.posts), sort_by_vote.type) });
-    }
-  } */
-
   deletePost(id) {
     this.props.deletePost(id);
   }
@@ -52,7 +42,7 @@ class PostsList extends React.Component {
 
   render() {
     let posts = [];
-    if (this.props.posts) {
+    if (this.props.posts && this.props.posts !== undefined) {
       posts = this.props.posts;
       const category = this.props.category;
 
@@ -69,43 +59,51 @@ class PostsList extends React.Component {
             <option value={sort_by_timestamp.type}>{sort_by_timestamp.value}</option>
           </select>
         </div>
-        
+        <div className="more__post">
+          <Link to="/post">
+            <button className="btn btn-outline-success">New Post <i className="fas fa-plus"></i></button>
+          </Link>
+        </div>
+        <div className="row">
           {posts.map((post) => {
             return (
-              <div className="container-fluid">
-              <div class="sidebar">
-               <div>
-                  <button onClick={() => this.props.vote(post.id, PLUS_VOTE)} className="plusVote"><FaAngleDoubleUp className='vote-icon' /></button>
-                </div>
-                <div>
-                  <button onClick={() => this.props.vote(post.id, MINUS_VOTE)} className="minusVote"><FaAngleDoubleDown className='vote-icon' /></button>
-                </div>
-              </div>  
-              <div key={post.id} className="content">
-                <div>
-                  <Link to={"/" + post.category + "/" + post.id}>{post.title}</Link> - {post.author}
-                </div>
-                <div>
-                  Score <span className="badge badge-primary badge-pill">{post.voteScore}</span>
-                </div>
-                
-                <div>
-                  Comments
-                  <span className="badge badge-primary badge-pill">{post.commentCount}</span>
-                </div>
-                <div>
-                  <Link to={"/post/" + post.id}>
-                    <button className="primary edit" ><FaEdit className='edit-icon' />Edit</button>
-                  </Link>
-                </div>
-                <div>
-                  <button className = "deletePost" onClick={() => this.deletePost(post.id)}><FaTrash className='delete-icon' />Delete</button>
-                </div>
+              <div className="col-md-6 col-12" key={post.id}>
+                <div className="container-fluid card__post">
+
+                  <h1 className="card__author"><Link to={"/" + post.category + "/" + post.id}>{post.title}</Link> <br /><span>Author: <span className="author__name">{post.author}</span></span></h1>
+
+                  <span className="tools">Tools</span>
+                  <div className="card__tools">
+
+                    <div className="btn__score">
+                      <span>Points score: </span>
+                        <i onClick={() => this.props.vote(post.id, PLUS_VOTE)}  className="fas fa-plus-circle"></i>
+                        <i onClick={() => this.props.vote(post.id, MINUS_VOTE)}  className="fas fa-minus-circle"></i>
+                    </div>
+
+                    <Link to={"/post/" + post.id}>
+                      <span className="primary edit" ><i className="far fa-edit"></i> Edit</span>
+                    </Link>
+
+                    <span className = "deletePost" onClick={() => this.deletePost(post.id)}><i className="far fa-trash-alt"></i> Delete</span>
+
+                  </div>
+
+                  <div key={post.id} className="box__numbers">
+                    <div>
+                      Score: <span className="badge badge-pill badge-info">{post.voteScore}</span>
+                    </div>
+                    <div>
+                      Comments: <span className="badge badge-pill badge-info">{post.commentCount}</span>
+                    </div>
+                  </div>
+                  </div>
               </div>
-              </div>
+              
             )
           })}
-        
+        </div>
+          
       </div>
     );
   }

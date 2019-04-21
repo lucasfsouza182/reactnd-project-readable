@@ -46,3 +46,103 @@ body, .app {
 .comment {
   padding-top: 10px;
 }
+.more__post{
+  text-align: right;
+  margin-bottom: 15px;
+}
+.card__post{
+  border: 1px solid #d5d5d5;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+.card__author {
+  font-size: 23px;
+  margin-bottom: 15px;
+}
+.card__author a {
+  color: #0375b4;
+}
+.card__author span {
+  font-size: 16px;
+}
+.author__name {
+  font-weight: bold;
+  color: #000000;
+}
+.tools{
+  font-size: 15px;
+}
+.card__tools{
+  display: flex;
+  border:1px solid #d5d5d5;
+  padding: 10px;
+  width: 100%;
+  justify-content: space-between;
+}
+.fas {
+  cursor: pointer;
+}
+.fa-plus-circle {
+  color: #2e7c31;
+  margin-right:10px; 
+}
+.fa-minus-circle{
+  color:  red
+}
+.deletePost{
+  cursor: pointer;
+  color:  red
+}
+.deletePost:hover {
+  text-decoration: underline;
+}
+.box__numbers{
+  margin-top:15px;
+}
+.toolsPost{
+  text-align: right;
+  margin-bottom: 15px;
+}
+.edit {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+ul {
+  padding-left: 20px;
+}
+ul .comment{
+  list-style: none;
+  margin-left: -20px;
+}
+.comment{
+  border: 1px solid #d5d5d5;
+  margin-bottom: 10px;
+    padding: 10px;
+}
+.span__title{
+  font-size: 12px;
+}
+
+.span__date{
+  font-size: 10px;
+}
+.point__score{
+  display: flex;
+  align-items: center;
+}
+.point__score .badge-info{
+  margin-left: 10px;
+}
+.point__score .fa-plus-circle {
+  margin-left: 10px;
+}
+.card__tools .edit{
+  cursor: pointer;
+  color: #007bff;
+}
+.card__tools .edit:hover{
+  text-decoration: underline;
+}
+.select {
+  margin-bottom: 10px;
+}

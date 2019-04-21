@@ -5,7 +5,6 @@ import { PLUS_VOTE, MINUS_VOTE , sortByField} from '../utils/appHelper';
 import { getCommentsAPI, deleteCommentAPI, updateCommentVoteAPI } from '../actions/comments'
 import moment from 'moment';
 import CommentForm from './CommentForm';
-import { FaAngleDoubleUp , FaAngleDoubleDown , FaEdit , FaTrash} from "react-icons/lib/fa" 
 
 const sort_by_vote = {
   type : "voteScore",
@@ -32,38 +31,24 @@ class CommentsList extends React.Component {
     }
   }
 
-  /* constructor(props) {
-    super(props);
-    this.props.getComments(this.props.postId);
-
-    this.state = {
-      comments: [],
-      commentsSorted: sort_by_vote.type,
-      showEdit : {
-        isHidden: true,
-        commentId : ''
-      }
-    }
-  } */
-
   static propTypes = {
     postId: PropTypes.string.isRequired
   }
 
-  /* componentWillReceiveProps(nextProps) {
+  //Using this to update the render method
+  componentWillReceiveProps(nextProps) {
     if (nextProps.comments) {
-      let comments = [];
       if (nextProps.comments[this.props.postId] !== undefined) {
-        comments = sortByField(nextProps.comments[this.props.postId], sort_by_vote.type);
+       let comments = sortByField(nextProps.comments[this.props.postId], sort_by_vote.type);
         this.setState({ comments });
       }
     }
-  } */
+  } 
 
   changeSort(field) {
     this.setState({
       commentsSorted: field,
-      comments: sortByField(this.props.comments, field)
+      comments: sortByField(this.state.comments, field)
     });
   }
 
@@ -74,44 +59,41 @@ class CommentsList extends React.Component {
   }
 
   render() {
-    const { comments } = this.props;
+    const { comments } = this.state;
     return (
       <div>
         <h3>Comments : {comments.length}</h3> 
         <br />
         <div>
+          <span>Filter: </span>
           <select className="select" value={this.state.commentsSorted} onChange={(event) => this.changeSort(event.target.value)}>
             <option value={sort_by_vote.type}>{sort_by_vote.value}</option>
             <option value={sort_by_timestamp.type}>{sort_by_timestamp.value}</option>
           </select>
         </div>
-        <div>
+        <div >
           <ul>
             {comments && comments.map((comment, id) => (
               <li className="comment" key={id}>
-                <div>
-                  Date {moment(comment.timestamp).format("DD/MM/YY HH:mm")}
-                </div>
-                <div>
-                author {comment.author}
-                </div>
-                <div>
-                  Score
-                  &nbsp;
-                  <span className="badge badge-primary badge-pill">{comment.voteScore}</span>
-                  &nbsp;
-                  <button onClick={() => this.props.vote(this.props.postId, comment.id, PLUS_VOTE)} ><FaAngleDoubleUp className='vote-icon' /></button>
-                  &nbsp;
-                  <button onClick={() => this.props.vote(this.props.postId, comment.id, MINUS_VOTE)} ><FaAngleDoubleDown className='vote-icon' /></button>
-                </div>
+                <h2 className="card__author">
+                  {comment.author}<span className="span__date"> - {moment(comment.timestamp).format("DD/MM/YY HH:mm")}</span>
+                </h2>
                 <div>
                   <span className="body">{comment.body}</span>
                 </div>
-                <div>
-                  <button className="edit-comment" onClick={this.toggleHidden.bind(this ,comment.id)}><FaEdit className='edit-icon' /> Edit</button>
-                  &nbsp; 
-                  <button className="delete-comment" onClick={() => this.props.deleteComment(this.props.postId, comment.id)}><FaTrash className='delete-icon' /> Delete</button>
+                
+                <span className="tools">Tools</span>
+                <div className="card__tools">
+                  <div className="point__score">
+                    Point score: 
+                    <span className="badge badge-pill badge-info">{comment.voteScore}</span>
+                    <i onClick={() => this.props.vote(this.props.postId, comment.id, PLUS_VOTE)} className="fas fa-plus-circle"></i>
+                    <i onClick={() => this.props.vote(this.props.postId, comment.id, MINUS_VOTE)}  className="fas fa-minus-circle"></i>
+                  </div>
+                  <span className="primary edit" onClick={this.toggleHidden.bind(this ,comment.id)}><i className="far fa-edit"></i> Edit</span>
+                  <span className = "deletePost" onClick={() => this.props.deleteComment(this.props.postId, comment.id)}><i className="far fa-trash-alt"></i> Delete</span>
                 </div>
+
                 {!this.state.showEdit.isHidden && comment.id === this.state.showEdit.commentId 
                   && <CommentForm comment={comment} postId={this.props.postId}/>}
               </li>
@@ -125,14 +107,14 @@ class CommentsList extends React.Component {
 
 
 function mapStateToProps({ comments } , props) {
-  const { postId } = props
+  /* const { postId } = props
   let commentsArr =[]
   if (comments[postId] !== undefined) {
     commentsArr = sortByField(comments[postId], sort_by_vote.type);
   }
-  console.log("mapStateToProps commentsArr", commentsArr)
+  console.log("mapStateToProps commentsArr", commentsArr) */
   return {
-    comments : commentsArr
+    comments : comments
   }
 }
 

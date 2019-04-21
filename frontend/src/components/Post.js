@@ -1,42 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { PLUS_VOTE , MINUS_VOTE} from '../utils/appHelper';
 import { getPostAPI , deletePostAPI , updatePostVoteAPI , getPostsAPI} from '../actions/posts';
 import moment from 'moment';
-import CommentsList from '../components/CommentsList';
+import CommentsList from './CommentsList';
 import CommentForm from './CommentForm';
-import PageNotFound from '../components/PageNotFound'
-import { FaAngleDoubleUp , FaAngleDoubleDown} from "react-icons/lib/fa" 
-
+import PageNotFound from './PageNotFound'
 
 class Post extends React.Component {
-  // componentDidMount() {
-  //   this.postId = this.props.match.params.postId;
-  //   this.props.getPost(this.postId);
-  // }
-  //   state = {
-  //     post: {}
-  //   }
-    constructor(props) {
-      super(props);
+  constructor(props) {
+  super(props);
+  this.postId = this.props.match.params.postId;
+  this.props.getPost(this.postId);
   
-      console.log("constructor props",this.props)
-      this.postId = this.props.match.params.postId;
-      this.props.getPost(this.postId);
-      console.log("constructor props 2",this.props)
-  
-      this.state = {
-        post: {},
-        error:false
-      }
-    }
-  
-  
+  this.state = {
+    post: {},
+    error:false
+  }
+} 
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.posts) {
-      console.log("nextProps posts",posts)
       let posts = nextProps.posts;
       if (posts && posts[this.postId]) {
         let post = Object.assign({}, posts[this.postId]);
@@ -58,47 +43,45 @@ class Post extends React.Component {
     return (
       <div className ="container">
         <div className="row">
-          <div className="col-12">
-            <button onClick={() => this.props.vote(post.id, PLUS_VOTE)} ><FaAngleDoubleUp className='vote-icon' /></button>
-            <button onClick={() => this.props.vote(post.id, MINUS_VOTE)} ><FaAngleDoubleDown className='vote-icon' /></button>
+          <div className="btn__score col-12 toolsPost">
+            <span>Points score: </span>
+            <i onClick={() => this.props.vote(post.id, PLUS_VOTE)}  className="fas fa-plus-circle"></i>
+            <i onClick={() => this.props.vote(post.id, MINUS_VOTE)}  className="fas fa-minus-circle"></i>
+            <Link to={"/post/" + post.id}>
+              <span className="btn btn-outline-primary edit" ><i className="far fa-edit"></i> Edit</span>
+            </Link>
+            <span className = "btn btn-outline-danger deletePost" onClick={() => this.deletePost(post.id)}><i className="far fa-trash-alt"></i> Delete</span>
           </div>
         </div>
-        <div>
+        <div className="card__post">
           <div>
-            <label><b>Date</b></label>
-            <span>{moment(post.timestamp).format("DD/MM/YY HH:mm")}</span>
-          </div>
-          <div>
-            <label><b>Vote score</b></label>
-            <span>{post.voteScore}</span>
-          </div>
-          <div>
-            <label><b>Title</b></label>
-            <span>{post.title}</span>
-          </div>
-          <div>
-            <label><b>Author</b></label>
-            <span> {post.author}</span>
-          </div>
-          <div>
-            <label><b>Category</b></label>
+            <label></label>
             <span>{post.category}</span>
           </div>
           <div>
-            <label><b>Body</b></label>
-            <span> <br /><br />{post.body}</span>
+            <label></label>
+            <span><b>{post.title}</b> <i>by {post.author}</i></span>
           </div>
+          <div>
+            <label><b></b></label>
+            <span><br />{post.body}</span>
+          </div>
+          <br />
+          <div>
+            <label><i>Posted at :</i></label>
+            <span>{moment(post.timestamp).format("DD/MM/YY HH:mm")}</span>
+          </div>
+          <div>
+            <label><b>Vote score: </b></label>
+            <span className="badge badge-pill badge-info">{post.voteScore}</span>
+          </div>
+         
         </div>
-            <Link to={"/post/" + post.id}>
-              <button className="primary edit">Edit</button>
-            </Link>
-            <button className = "deletePost" onClick={() => this.deletePost(post.id)}>Delete</button>
-            <CommentsList postId={this.postId} />
-            <CommentForm  postId={this.postId} />
+          <CommentsList postId={this.postId} />
+          <CommentForm  postId={this.postId} />
       </div>
     );
   }
-
 }
 
 function mapStateToProps({ posts }) {
