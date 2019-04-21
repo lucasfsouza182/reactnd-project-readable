@@ -8,13 +8,6 @@ The project provides to create, upodate, delete and vote posts and comments to c
 
 ## Installation
 
-### Back End
-
-Access the folder: *api-server*
-and input: 
-
-`npm install`
-
 ### Front end 
 
 And access the folder: *frontend*
